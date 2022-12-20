@@ -2,18 +2,29 @@ package com.rezzza.rawgapps.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rezzza.rawgapps.R
 import com.rezzza.rawgapps.adapter.GamesAdapter
 import com.rezzza.rawgapps.model.GamesModel
-import java.util.Date
+import com.rezzza.rawgapps.model.results
+import com.rezzza.rawgapps.viewmodel.HomeViewModel
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class HomeFragment : MyFragment() {
 
-    val listGames = ArrayList<GamesModel>()
-    var adapterGame : GamesAdapter ?= null
+    private val listGames = ArrayList<GamesModel>()
+    private var adapterGame : GamesAdapter ?= null
+    private var isLoading : Boolean = false
+    private lateinit var vm:HomeViewModel
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -40,6 +51,25 @@ class HomeFragment : MyFragment() {
         adapterGame = GamesAdapter(context, listGames)
         rcvw_data.adapter = adapterGame
 
+        rcvw_data.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
+                if (!isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == listGames.size - 1) {
+                        loadData()
+                        isLoading = true
+                    }
+                }
+            }
+        })
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vm = ViewModelProvider(this)[HomeViewModel::class.java]
+
         loadData()
     }
 
@@ -63,5 +93,25 @@ class HomeFragment : MyFragment() {
         listGames.add(model)
 
         adapterGame?.notifyDataSetChanged()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            isLoading = false
+        }, 1000)
+
+        vm.fetchAllPosts()
+        vm.postModelListLiveData?.observe(viewLifecycleOwner, Observer {
+            if (it != null){
+                val data = it.results
+                for (item in data){
+                    Log.d("TAGRZ","Data "+item.name)
+                }
+            }
+            else {
+                Log.d("TAGRZ","IT IS NULL")
+            }
+        })
+
     }
+
+
 }
