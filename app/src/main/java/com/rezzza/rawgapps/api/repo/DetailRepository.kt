@@ -6,43 +6,42 @@ import androidx.lifecycle.MutableLiveData
 import com.rezzza.rawgapps.api.ApiConfig
 import com.rezzza.rawgapps.api.CallApiService
 import com.rezzza.rawgapps.api.service.ApiInterface
-import com.rezzza.rawgapps.model.ResponseApiModel
+import com.rezzza.rawgapps.model.DetailApiModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeRepository {
+class DetailRepository {
 
-    var pageSize : Int = 10
     var  apiInterface : ApiInterface?= null
 
     init {
         apiInterface = CallApiService.getApiClient().create(ApiInterface::class.java)
     }
 
-    fun fetchAllGames(page: Int): LiveData<ResponseApiModel> {
-        val data = MutableLiveData<ResponseApiModel>()
+    fun getDetailGame(id: Int): LiveData<DetailApiModel> {
+        val data = MutableLiveData<DetailApiModel>()
 
-        val url = ApiConfig.GET_GAMES_ALL+"?key="+ApiConfig.API_KEY+"&page="+page+"&page_size="+pageSize
-        Log.d("HomeRepository","API $url")
+        val url = ApiConfig.GET_GAMES_ALL+"/"+id+"?key="+ApiConfig.API_KEY
+        Log.d("DetailRepository","API $url")
 
-        apiInterface?.getAllGames(url)?.enqueue(object : Callback<ResponseApiModel> {
+        apiInterface?.getDetail(url)?.enqueue(object : Callback<DetailApiModel> {
 
-            override fun onFailure(call: Call<ResponseApiModel>, t: Throwable) {
+            override fun onFailure(call: Call<DetailApiModel>, t: Throwable) {
                 data.value = null
-                Log.e("HomeRepository","response "+t.message);
+                Log.e("DetailRepository","response "+t.message);
             }
 
             override fun onResponse(
-                call: Call<ResponseApiModel>,
-                response: Response<ResponseApiModel>
+                call: Call<DetailApiModel>,
+                response: Response<DetailApiModel>
             ) {
 
                 val res = response.body()
                 if (response.code() == 200 &&  res!=null){
                     data.value = res
                 }else{
-                    Log.e("HomeRepository","response "+response.code());
+                    Log.e("DetailRepository","response "+response.code());
                     data.value = null
                 }
             }

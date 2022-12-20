@@ -1,4 +1,4 @@
-package com.rezzza.rawgapps.fragment
+package com.rezzza.rawgapps.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

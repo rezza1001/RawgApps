@@ -16,4 +16,5 @@
     <color name="menu_select">#102027</color>
     <color name="activity">#eceff1</color>
     <color name="menuBottom">#ffffff</color>
+    <color name="shimmer">#b0bec5</color>
 </resources>

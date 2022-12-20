@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.rezzza.rawgapps.R
-import com.rezzza.rawgapps.fragment.FavoriteFragment
-import com.rezzza.rawgapps.fragment.HomeFragment
+import com.rezzza.rawgapps.ui.fragment.FavoriteFragment
+import com.rezzza.rawgapps.ui.fragment.HomeFragment
 import com.rezzza.rawgapps.ui.view.MenuBottomView
 
 class MainActivity : AppCompatActivity(), MenuBottomView.OnActionListener{

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RawgApps</string>
     <string name="games_for_you">Games For You</string>
+    <string name="detail_game">Detail Info</string>
 </resources>
