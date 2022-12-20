@@ -17,8 +17,8 @@ class HomeViewModel(application: Application): AndroidViewModel(application){
         postModelListLiveData = MutableLiveData()
     }
 
-    fun fetchAllPosts(){
-        postModelListLiveData = homeRepository?.fetchAllGames()
+    fun fetchAllPosts(page: Int){
+        postModelListLiveData = homeRepository?.fetchAllGames(page)
     }
 
 }

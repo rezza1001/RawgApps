@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rezzza.rawgapps.R
 import com.rezzza.rawgapps.adapter.GamesAdapter
 import com.rezzza.rawgapps.model.GamesModel
-import com.rezzza.rawgapps.model.results
 import com.rezzza.rawgapps.viewmodel.HomeViewModel
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HomeFragment : MyFragment() {
@@ -25,6 +24,7 @@ class HomeFragment : MyFragment() {
     private var adapterGame : GamesAdapter ?= null
     private var isLoading : Boolean = false
     private lateinit var vm:HomeViewModel
+    private var page : Int = 1
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -79,36 +79,28 @@ class HomeFragment : MyFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun loadData(){
-        val model = GamesModel()
-        model.title = "Pubg Mobile : Play Battle Ground"
-        model.rating = 4.5
-        model.imageUrl = "https://imgsrv2.voi.id/i2CyOk5DPnqTT9wRPLtKgTtoUq5olboqn4yMm2ZxDpU/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy8xMDE3NDQvMjAyMTExMDcxMzMyLW1haW4uY3JvcHBlZF8xNjM2MjY2Nzc4LmpwZw.jpg"
-        model.releaseDate = Date()
-        listGames.add(model)
-        listGames.add(model)
-        listGames.add(model)
-        listGames.add(model)
-        listGames.add(model)
-        listGames.add(model)
-        listGames.add(model)
-
-        adapterGame?.notifyDataSetChanged()
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            isLoading = false
-        }, 1000)
-
-        vm.fetchAllPosts()
+        vm.fetchAllPosts(page)
         vm.postModelListLiveData?.observe(viewLifecycleOwner, Observer {
             if (it != null){
                 val data = it.results
                 for (item in data){
-                    Log.d("TAGRZ","Data "+item.name)
+                    Log.d("TAGRZ","Data Page $page : "+item.name)
+                    val model = GamesModel()
+                    model.title = item.name!!
+                    model.rating = item.rating!!
+                    model.imageUrl = item.background_image!!
+
+                    val formatDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+                    model.releaseDate = formatDate.parse(item.released!!) as Date
+                    listGames.add(model)
                 }
+                adapterGame?.notifyDataSetChanged()
+                page ++
             }
             else {
                 Log.d("TAGRZ","IT IS NULL")
             }
+            isLoading = false
         })
 
     }
