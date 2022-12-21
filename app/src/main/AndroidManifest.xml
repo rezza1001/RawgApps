@@ -28,6 +28,7 @@
                 android:value="" />
         </activity>
         <activity android:name=".ui.activity.DetailGamesActivity" android:screenOrientation="nosensor"/>
+        <activity android:name=".ui.activity.SearchActivity" android:screenOrientation="nosensor"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

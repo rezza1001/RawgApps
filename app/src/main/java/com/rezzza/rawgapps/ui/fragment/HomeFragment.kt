@@ -94,7 +94,6 @@ class HomeFragment : MyFragment() {
                 intent.putExtra("data", data)
                 startActivity(intent)
             }
-
         })
 
     }

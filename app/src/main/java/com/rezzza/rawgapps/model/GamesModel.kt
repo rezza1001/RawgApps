@@ -9,7 +9,7 @@ class GamesModel : Serializable{
     var title : String = ""
     var imageUrl : String = ""
     var rating : Double = 0.0
-    lateinit var releaseDate : Date
+    var releaseDate : Date ? = Date()
     var isLoading : Boolean = false
 
 

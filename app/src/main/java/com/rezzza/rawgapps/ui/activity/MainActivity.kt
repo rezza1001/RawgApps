@@ -1,10 +1,12 @@
 package com.rezzza.rawgapps.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.balysv.materialripple.MaterialRippleLayout
 import com.rezzza.rawgapps.R
 import com.rezzza.rawgapps.ui.fragment.FavoriteFragment
 import com.rezzza.rawgapps.ui.fragment.HomeFragment
@@ -14,6 +16,7 @@ class MainActivity : AppCompatActivity(), MenuBottomView.OnActionListener{
 
     private var mnvw_menu : MenuBottomView ?= null
     private var frame_body : FrameLayout ?= null
+    private var mrly_search : MaterialRippleLayout ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity(), MenuBottomView.OnActionListener{
 
         mnvw_menu = findViewById(R.id.mnvw_menu)
         frame_body = findViewById(R.id.frame_body)
+        mrly_search = findViewById(R.id.mrly_search)
 
         initListener()
         onSelectedPage(MenuBottomView.MENU.HOME)
@@ -28,6 +32,9 @@ class MainActivity : AppCompatActivity(), MenuBottomView.OnActionListener{
 
     private fun initListener(){
         mnvw_menu?.setOnActionListener(this)
+        mrly_search!!.setOnClickListener {
+            startActivity(Intent(this, SearchActivity::class.java))
+        }
 
     }
 

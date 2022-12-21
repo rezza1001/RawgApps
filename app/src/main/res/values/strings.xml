@@ -2,4 +2,5 @@
     <string name="app_name">RawgApps</string>
     <string name="games_for_you">Games For You</string>
     <string name="detail_game">Detail Info</string>
+    <string name="find_games">Find Games</string>
 </resources>

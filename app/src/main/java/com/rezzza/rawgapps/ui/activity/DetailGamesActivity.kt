@@ -1,16 +1,19 @@
 package com.rezzza.rawgapps.ui.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.balysv.materialripple.MaterialRippleLayout
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.rezzza.rawgapps.R
 import com.rezzza.rawgapps.database.table.GamesDB
 import com.rezzza.rawgapps.model.GamesModel
@@ -28,6 +31,7 @@ class DetailGamesActivity : AppCompatActivity() {
     var txvw_palyed     : TextView ?= null
     var txvw_desc       : TextView ?= null
     var txvw_publisher  : TextView ?= null
+    var rvly_root       : RelativeLayout ?= null
 
     var favorite : Boolean = false
     var gamesDB = GamesDB()
@@ -48,6 +52,7 @@ class DetailGamesActivity : AppCompatActivity() {
         txvw_publisher  = findViewById(R.id.txvw_publisher)
         mrly_favorite   = findViewById(R.id.mrly_favorite)
         imvw_favorite   = findViewById(R.id.imvw_favorite)
+        rvly_root       = findViewById(R.id.rvly_root)
 
         initListener()
         initData()
@@ -60,11 +65,14 @@ class DetailGamesActivity : AppCompatActivity() {
         mrly_favorite!!.setOnClickListener {
             if (favorite){
                 gamesDB.unFavorite(this)
+                showMessage(gamesDB.title + " remove from favorite")
             }
             else {
                 gamesDB.favorite(this)
+                showMessage(gamesDB.title + " set as favorite")
             }
             checkFavorite(gamesDB.id)
+
         }
     }
 
@@ -127,6 +135,12 @@ class DetailGamesActivity : AppCompatActivity() {
         else {
             imvw_favorite?.setColorFilter(Color.WHITE)
         }
+        sendBroadcast(Intent("REFRESH"))
+    }
+
+    fun showMessage(message : String){
+        val mySnackbar = Snackbar.make(rvly_root!!, message, Snackbar.LENGTH_SHORT)
+        mySnackbar.show()
     }
 
 }

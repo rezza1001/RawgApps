@@ -28,6 +28,7 @@ class MenuBottomView(context: Context?,attrs: AttributeSet?) : MyView(context, a
     override fun initLayout() {
         lnly_home = findViewById(R.id.lnly_home);
         lnly_favorite = findViewById(R.id.lnly_favorite);
+        selected(lnly_home!!)
     }
 
     override fun initListener() {
