@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">RawgApps</string>
+    <string name="app_name">Perqara Games</string>
     <string name="games_for_you">Games For You</string>
     <string name="detail_game">Detail Info</string>
     <string name="find_games">Find Games</string>
+    <string name="game_test_application">Game Test Application</string>
 </resources>
